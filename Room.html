@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+
+            .main-container {
+                position: fixed;
+                float: left;
+            }
+
+
+            .toolbar {
+                display: inline-block;
+                float: left;
+            }
+
+            #countdown{
+                position: fixed;
+                bottom: 0;
+                color: white;
+            }
+
+            #img-container{
+                display: inline-block;
+                float: left;
+                position: relative;
+
+            }
+            #hover-image {
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                background-image:url("images/Office/SecurityOfficeSceneUVLightPNG1.png") ;
+                background-position: 0 0;
+                opacity: 0;
+            }
+
+            #table {
+                background-image: url(images/Office/toolbar.png);
+                border-collapse: collapse;
+            }
+
+            .circle{
+                border-radius: 50%;
+            }
+
+            #invisible-layer{
+                position: absolute; top: 0; left: 0; opacity:0; *filter: Alpha(opacity=0);
+            }
+            .hidden, #item0, .hiddenTd{
+                padding: 0px; margin: 0px; border: none; line-height:0;
+            }
+            .hidden{
+                opacity: 0;
+                /*------------------------------------*/
+                width: 100px;
+                height: 100px;
+                /*------------------------------------*/
+            }
+
+            #safe-div{
+                position: absolute;
+                top: 380px;
+                left: 480px;
+                color: white; 
+                opacity: 0;
+            }
+
+
+            #hideEvent-overlay{
+                position: absolute;
+                bottom: 0px;
+                left: 480px;
+                color: white; 
+                opacity: 0;
+                background-image:url("images/Office/HideAlert.png") ;
+                width: 300px;
+                height: 100px;
+            }
+            #hide-time{
+                position: absolute;
+                bottom: 10px;
+                left: 130px;
+                color: white; 
+
+            } 
+            /*------------------------------------*/
+            .main {
+                position:relative;   
+            }
+
+            .flask{
+                position: absolute;
+                top: 450px;
+                left: 0px;
+                width: 150px;
+                height: 150px;
+                z-index: -5;
+            }
+            .chestsmoke{
+                position: absolute;
+                z-index: -5; 
+            }
+            form {
+                position: absolute;
+                top: 275px;
+                left: 645px;
+                z-index: -1;
+            }
+            input[type=text] {
+                background-color: #2e2e2e;
+            }
+            input, select, textarea{
+                color: white
+            }
+            form .submit {
+                background-color: #2e2e2e;
+            }
+            #hide-text {
+                position: absolute;
+                bottom: 40px;
+                left: 5%;
+                color: white;
+            }
+
+            #end-screen-stats{
+                position: absolute;
+                font: serif;
+                font-size: 36px;
+                top: 200px;
+                left: 200px;
+                color: white; 
+                white-space: pre;
+            }
+
+            .buttonplacement {
+                position: relative;
+            }
+            .brightnessText {
+                position: relative;
+                color: white
+            }
+
+            /*------------------------------------*/
+        </style>
+    </head>
+
+
+    <body style="background-color: black">
+
+        <map name="storage-intro-map">
+            <area target="_blank" alt="Note on Floor"  href="" coords="355,492,407,481,440,526,396,537" shape="poly" onclick="storageNoteClick(event)" id="storage-note-floor">
+            <area target="_blank" alt="Note Exit" title="" href="" coords="227,251,227,268,187,291,228,317,230,331,168,293" shape="poly" onclick="storageNoteExitClick(event)" id="storage-note-exit">
+        </map>
+
+        <map name = "storage-items-map" id="Storage-item-map">
+            <area target="_blank" alt="First Crafting Item" href="" coords="68,316,75,310,82,293,114,288,134,299,139,314,148,311,151,323,139,324,143,342,112,361,88,367,78,346,70,344,64,332" shape="poly" onclick="storageItemOneClick(event)" id="storage-crafting-item1">
+            <area target="_blank" alt="Second Crafting Item" href="" coords="199,322,230,287,249,288,251,308,216,342,215,327"shape="poly" onclick="storageItemTwoClick(event)" id="storage-crafting-item2">
+            <area target="_blank" alt="Third Crafting Item" href="" coords="71,461,100,444,116,452,99,464,154,522,144,531,95,465,82,476" shape="poly" onclick="storageItemThreeClick(event)" id="storage-crafting-item3">
+            <area target="_blank" alt="Fourth Crafting Item" href="" coords="424,123,477,121,478,162,423,162" shape="poly" onclick="storageItemFourClick(event)" id="storage-crafting-item4">
+            <area target="_blank" alt="Unused Item" href="" coords="43,176,83,178,108,154,142,134,137,228,46,225,43,175" shape="poly" onclick="storageUnusedItemsClick(event)">
+            <area target="_blank" alt="Unused Item" href="" coords="839,28,863,29,862,39,877,42,885,54,877,68,877,75,859,83,840,76,831,60,843,38" shape="poly" onclick="storageUnusedItemsClick(event)">
+            <area target="_blank" alt="Unused Item" href="" coords="178,25,183,19,220,16,242,28,238,92,179,90,176,76,187,65,184,37" shape="poly" onclick="storageUnusedItemsClick(event)">
+            <area target="_blank" alt="Unused Item" href="" coords="551,353,610,352,627,387,563,387" shape="poly" onclick="storageUnusedItemsClick(event)">
+            <area target="_blank" alt="Unused Item" href="" coords="554,296,576,276,629,318,624,327,566,311" shape="poly" onclick="storageUnusedItemsClick(event)">
+            <area target="_blank" alt="Unused Item" href="" coords="199,456,227,426,224,418,234,419,244,430,235,442,244,454,240,463,227,464,219,454,208,462" shape="poly" onclick="storageUnusedItemsClick(event)">
+        </map>
+
+
+        <map name="secruity-office-map" id="Office-map" >
+            <area shape="poly" id="office-monitor" coords="414,260,564,272,570,367,420,350" href="" target="_blank" alt="Monitor" onclick="officeMonitorClick(event)" />
+            <area shape="poly" id="office-fusebox" coords="115,346,205,266,217,298,159,368" href="" target="_blank" alt="Fuse Box" onclick="officeFuseboxClick(event)"/>
+            <area shape="poly" id="office-lost-fuse" coords="0" href="" target="_blank" alt="Lost Fuse" onclick="officeLostFuseClick(event)"/>
+            <area shape="poly" id="office-safe" coords="477,212,548,208,549,258,479,258" href="" target="_blank" alt="Safe" onclick="officeSafeClick(event)"/>
+            <area shape="poly" id="office-escape-arrow" coords="0" href="" target="_blank" alt="Escape Arrow" onclick="officeExitArrowClick(event)"/>  
+        </map>
+
+        <map name="secruity-office-fuse-map" id="Office-fuse-map" >
+            <area shape="poly" id="office-fuse-missingFuse" coords="521,251,515,369,567,375,568,262" href="" target="_blank" alt="Missing fuse" onclick="officeFuseboxFuseClick(event)"/>
+            <area shape="poly" id="office-fuse-exit" coords="147,522,177,496,170,484,125,520,169,559,179,547" href="" target="_blank" alt="Missing fuse" onclick="officeFuseboxExitClick(event)"/>
+        </map>
+
+        <map name="secruity-office-safe-map" id="Office-safe-map" >
+            <area shape="poly" id="office-safe-1" coords="427,221,467,183,472,225" href="" target="_blank" onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-2" coords="486,223,484,173,525,158,524,223" href="" target="_blank"  onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-3" coords="540,161,580,172,580,223,542,226" href="" target="_blank"  onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-4" coords="598,225,598,181,637,224" href="" target="_blank"  onclick="officeSafeMenuClick(event)" />
+            <area shape="poly" id="office-safe-5" coords="419,237,469,238,466,289,409,287" href="" target="_blank"  onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-6" coords="485,236,523,236,523,288,489,288" href="" target="_blank"  onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-7" coords="542,234,582,234,582,288,543,290" href="" target="_blank"  onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-8" coords="600,236,642,236,657,285,602,288" href="" target="_blank"  onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-9" coords="487,302,524,302,525,359,487,360" href="" target="_blank"  onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-0" coords="540,302,579,300,580,362,542,362" href="" target="_blank"  onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-wipe" coords="411,303,469,301,471,359,457,373,425,345" href="" target="_blank" onclick="officeSafeMenuClick(event)"/>
+            <area shape="poly" id="office-safe-exit" coords="308,502,355,466,364,477,336,504,363,528,356,540" href="" target="_blank" onclick="officeSafeMenuClick(event)"/>
+        </map>
+        <!------------------------------------------------------------------->
+        <map name="lab-map">
+            <area target="_blank" id="lab-cabinate" alt="Cabinate" title="Cabinate" href="" coords="831,592,378,322" shape="rect" onclick="LabShelfClick(event)">
+            <area target="_blank" id="lab-chest" alt="Chest" title="Chest" href="" coords="188,739,21,750,1,749,1,620,18,620,191,617" shape="poly" onclick="LabChestClick(event)">
+            <area target="_blank" id="backarrow" alt="backarrow" title="Back Arrow" href="" coords="517,804,626,873" shape="rect" onclick="backarrow(event)">
+
+        </map>
+
+        <map name="lab-chest-map">
+            <area target="_blank" alt="BackToRoom" title="BackToRoom" href="" coords="302,263,862,259,946,409,969,423,972,458,922,504,903,567,951,620,161,621,217,527,159,476,155,404,1,397,0,921,1143,921,1142,2,3,3,1,391,203,404" shape="poly" id="lab-chest-back" onclick="ReturnToRoomFromChest(event)">
+            <area target="_blank" alt="Chest" title="lab-chest-open" href="" coords="327,280,259,307,225,394,169,425,167,459,184,462,185,485,223,512,241,571,178,597,266,617,885,618,936,601,895,569,919,498,946,482,968,463,969,425,899,370,875,303,880,283,816,262,744,278" shape="poly" onclick=acidcheck(event)>
+        </map>
+
+        <map name="lab-shelf-map">
+            <area target="_blank" alt="BackToRoom" title="BackToRoom" href="" coords="150,577,150,181,993,180,993,577,1034,579,1117,608,1130,639,1120,655,1068,658,1042,714,980,740,150,741,107,716,81,656,17,653,22,616,1,586,0,919,1141,922,1141,0,1,2,1,577,21,616" shape="poly" onclick="ReturnToRoomFromShelf(event)">
+            <area target="_blank" alt="EmptyBottles" title="EmptyBottles" href="" coords="705,190,946,234" shape="rect" onclick="emptybottle(event)">
+        </map>
+
+        <map name="all-screen">
+            <area target="_blank" alt="ClickScreen" title="ClickScreen" href="" coords="0,1,1142,918" shape="rect" onclick="resetroom(event)">
+        </map>
+        <!------------------------------------------------------------------->
+        <map name="secruity-office-hide-map" id="Office-hide-map" >
+            <area shape="poly" id="office-hidespot-3" coords="1,552,67,464,201,454,226,576,218,597,3,596" href="" target="_blank" onclick="hideEventClick(event,this.id)" title="Fridge"/> 
+            <area shape="poly" id="office-hidespot-2" coords="328,297,302,354,312,420,471,506,782,467,782,386,742,338,522,360" href="" target="_blank" onclick="hideEventClick(event,this.id)" title="Under Desk"/>
+            <area shape="poly" id="office-hidespot-1" coords="201,21,223,33,247,206,319,199,310,27,299,15" href="" target="_blank" onclick="hideEventClick(event,this.id)" title="Ceiling"/>
+        </map>
+        <!------------------------------------------------------------------->
+        <map name="lab-hide-map">
+            <area onclick="hideEventClick(event,this.id)" id="lab-hidespot-1" target="_blank" alt="Shelf" title="On Shelf" href="" coords="1,72,302,79,300,153,239,180,2,180" shape="poly" onclick="hideEventClick(event,this.id)">
+            <area onclick="hideEventClick(event,this.id)" id="lab-hidespot-2" target="_blank" alt="Globe" title="Behind Globe" href="" coords="964,575,136" shape="circle" onclick="hideEventClick(event,this.id)">
+        </map>
+        <!------------------------------------------------------------------->
+        <map name="secruity-office-monitor-map" id="Office-monitor-map" >
+            <area shape="poly" id="office-monitor-exit" coords="815,66,819,83,882,84,882,67" href="" target="_blank" onclick="officeMonitorExitClick(event)"/>
+        </map>
+
+        <map name="hallway-dark-map">
+            <area target="_blank" id="hallway-dark-light-switch" href="" coords="168,278,182,279,183,299,168,300" shape="poly" onclick="hallwayLightSwitchClick(event,this.id)">
+            <area target="_blank" id="hallway-dark-back-arrow" href="" coords="316,634,362,708,401,635,360,655" shape="poly" onclick="hallwayBackArrowClick(event)">
+        </map>
+
+        <map name="hallway-normal-map">
+            <area target="_blank" id="hallway-normal-final-door" href="" coords="316,250,406,386" shape="rect" onclick="hallwayFinalDoorClick(event)">
+            <area target="_blank" id="hallway-normal-storage-door" href="" coords="482,197,565,141,581,493,486,436" shape="poly" onclick="hallwayStorageDoorClick(event)">
+            <area target="_blank" id="hallway-normal-labratory-door" href="" coords="14,126,134,193,143,521,20,617" shape="poly" onclick="hallwayLabratoryDoorClick(event)">
+            <area target="_blank" id="hallway-normal-keypad" href="" coords="586,318,583,278,619,267,625,325" shape="poly" onclick="hallwayKeypadClick(event)">
+            <area target="_blank" id="hallway-normal-light-switch" href="" coords="168,278,182,279,183,299,168,300" shape="poly" onclick="hallwayLightSwitchClick(event,this.id)">
+            <area target="_blank" id="hallway-normal-back-arrow" href="" coords="316,634,362,708,401,635,360,655" shape="poly" onclick="hallwayBackArrowClick(event)">
+        </map>
+
+        <map name="hallway-hide-map">
+            <area target="_blank" id="hallway-hidespot-2" href="" coords="200,395,264,375,269,399,205,441" shape="poly" onclick="hideEventClick(event,this.id)" title = "Crawl in Vent">
+            <area target="_blank" id="hallway-hidespot-1" href="" coords="447,78,513,79,563,29,491,31" shape="poly" onclick="hideEventClick(event,this.id)" title= "Climb in Vent">
+        </map>
+
+        <map name="hallway-keypad-map">
+            <area target="_blank" id="hallway-keypad-1" href="" coords="120,114,271,223" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-2" href="" coords="281,113,441,223" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-3" href="" coords="450,113,605,223" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-4" href="" coords="118,232,272,336" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-5" href="" coords="281,232,441,335" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-6" href="" coords="452,234,605,334" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-7" href="" coords="121,345,271,443" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-8" href="" coords="280,344,441,443" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-9" href="" coords="452,344,606,443" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-0" href="" coords="280,454,441,599" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-clear" href="" coords="120,454,271,600" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-enter" href="" coords="451,452,605,600" shape="rect" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-keypad-back-arrow" href="" coords="4,678,82,642,83,660,152,660,155,699,83,696,84,718" shape="poly" onclick="hallwayKeypadMenuClick(event)"> 
+        </map>
+
+        <map name="hallway-keypad-dust-map">
+            <area target="_blank" id="hallway-keypad-back-arrow" href="" coords="4,678,82,642,83,660,152,660,155,699,83,696,84,718" shape="poly" onclick="hallwayKeypadMenuClick(event)"> 
+        </map>
+
+        <map name="hallway-final-door-map">
+            <area target="_blank" id="hallway-final-door-back-arrow" href="" coords="14,663,84,627,83,642,151,644,151,676,84,677,85,695" shape="poly" onclick="hallwayKeypadMenuClick(event)">
+            <area target="_blank" id="hallway-final-door-lock-1" href="" coords="399,271,438,300" shape="rect" onclick="hallwayFinalDoorLockpadClick(event)">
+            <area target="_blank" id="hallway-final-door-lock-2" href="" coords="270,317,303,348" shape="rect" onclick="hallwayFinalDoorLockpadClick(event)">
+            <area target="_blank" id="hallway-final-door-lock-3" href="" coords="337,479,367,506" shape="rect" onclick="hallwayFinalDoorLockpadClick(event)">
+        </map>
+
+        <map name="death-screen-map">
+            <area target="_blank" id="death-screen-replay" href="" coords="192,240,487,351" shape="rect" onclick="deathScreenClick(event)">
+        </map>
+
+        <!-- Storage part -->
+        <map name="storage-map" id="Storage-map">
+            <!-- <area shape="poly" id="storage-note" coords="365,467,384,484,406,482,441,523,422,531,400,533,377,515" href="" target="_blank" alt="Note" onclick="storageNoteClick(event)">
+<area shape="poly" id="storage-note-exit" coords="167,292,226,255,228,266,185,293,229,318,229,329" href="" target="_blank" alt="NoteExit" onclick="noteExit(event)"> -->
+            <area shape="poly" id="storage-findDrillHole" coords="0" href="" target="_blank" alt="Find Drill Hole" onclick="storageFindDrillHole(event)">
+            <area shape="poly" id="storage-escape-arrow" coords="0" href="" target="_blank" alt="Escape Arrow" onclick="storageExitArrowClick(event)">
+            <!-- <area shape="poly" id="storage-useDrillOnGround" coords="518,510,568,510,573,544,517,544" href="" target="_blank" alt="UseDrill" onclick="storageUseDrill(event)"> -->
+        </map>
+
+        <map name="storage-useDrill-map" id="storage-useDrill-map">
+            <area shape="circ" id="storage-useDrill-drillHole" coords="519,178,8" href="" target="_blank" alt="DrillHole" onclick="storageUseDrillClick(event)">
+            <area shape="poly" id="storage-useDrill-exit" coords="167,292,226,255,228,266,185,293,229,318,229,329" href="" target="_blank" alt="DrillHoleExit" onclick="drillHoleExit(event)">
+        </map>
+
+        <map name="storage-useKey-map" id="storage-useKey-map">
+            <area shape="circ" id="storageUseKey" coords="519,281,10" href="" target="_blank" alt="keyHole" onclick="storageUseKeyClick(event)">
+            <area shape="poly" id="storage-useKey-exit" coords="167,292,226,255,228,266,185,293,229,318,229,329" href="" target="_blank" alt="KeyHoleExit" onclick="keyHoleExit(event)">
+        </map>
+
+        <map name="storage-hide-map" id="Storage-hide-map">
+            <area shape="rect" id="storage-hidespot-2" coords="487,118,666,162" href="" target="_blank" onclick="hideEventClick(event,this.id)" title="Shelf">
+            <area shape="poly" id="storage-hidespot-1" coords="700,177,700,430,807,530,810,119" href="" target="_blank" onclick="hideEventClick(event,this.id)" title="Shelf">
+        </map>
+
+
+        <div class="main-container">
+
+            <div id="img-container" onmousemove="overlay(event)" >
+                <img id="main-img" usemap="#secruity-office-map" src="images/Office/SecurityOfficeSceneNoBlood.png" draggable="false" ondragstart="return false;" class="main">       
+                <div id = "hover-image" class="circle" ></div>
+                <div id="safe-div"><span id="safe-input"></span> Tries left: <span id="safe-tries"></span></div>
+                <!------------------------------------------------------------------->
+                <video id="smoke-chest" src="images/Lab/SmokeChest.mp4" preload="none" class="chestsmoke" onended="smokeended(event)"></video>
+                <img id="flask-empty" src="images/Lab/Flask.png" class="flask" draggable="true" ondragstart="return false;">
+                <img id="flask-blue" src="images/Lab/FlaskBlue.png" class="flask" draggable="true" ondragstart="return false;">
+                <img id="flask-red" src="images/Lab/FlaskRed.png" class="flask" draggable="true" ondragstart="return false;">
+                <img id="flask-yellow" src="images/Lab/FlaskYellow.png" class="flask" draggable="true" ondragstart="return false;"> 
+                <form id="name-form" class="form-hide" onsubmit="return formsubmit(event)"><input type="text" id="name" name="name" placeholder="Enter Name..."><input class="submit" type="submit" value="Submit"></form>
+                <!------------------------------------------------------------------->
+                <div id="hideEvent-overlay"><span id="hide-time">00:10</span><span id="hide-text"></span></div>
+                <img id="invisible-layer"  usemap="#secruity-office-map" src="images/Office/SeecurityOfficeScenePNG1.png" onmouseout="mouseOut()" onmouseenter="mouseIn()" draggable="false" ondragstart="return false;" class="main"/>
+                <!------------------------------------------------------------------->
+                <div id="EndScreen-stats"><span id="end-screen-stats"></span></div>
+            </div>
+
+            <div class="toolbar">
+                <!-- Inventory Bar-->
+                <!-- width="100" height="600"-->   
+                <table id="table"           height="700px"           >
+                    <tr>
+                        <!--https://pngtree.com/freepng/hand-painted-flashlight-gray-flashlight-illumination-small-electric-light_3899246.html
+http://clipart-library.com/free/key-png-image.html
+https://pixabay.com/illustrations/flask-beaker-science-laboratory-908887/-->
+                        <td  align="center"  class="hiddenTd"><img id="item0" src='images/Office/flashlight.png' onclick="flashlightClick(event)" ></td>
+                    </tr>
+                    <tr>
+                        <td  align="center" class="hiddenTd"><img id="item1" class="hidden"  src='images/Office/fuse1Piece.png'></td> 
+                    </tr>
+                    <tr>
+                        <td  align="center" class="hiddenTd"><img id="item2" class="hidden"  src='images/Office/key1.png'></td>
+                    </tr>
+                    <tr>
+                        <td  align="center" class="hiddenTd"><img  id="item3" class="hidden"  src='images/Storage/drill.png'></td>
+                    </tr>
+                    <tr>
+                        <td  align="center" class="hiddenTd"><img id="item4" class="hidden"  src='images/Office/key1.png'></td>
+                    </tr>
+                    <tr>
+                        <td  align="center" class="hiddenTd"><img id="item5" class="hidden" src='images/Lab/FlaskGreen.png' ></td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="hiddenTd"><img id="item6" class="hidden" src='images/Office/key1.png'></td>
+                    </tr>
+                </table>
+            </div>
+            <table>
+                <tr>
+                    <td> <p class="brightnessText">Contrast</p><input type="range" id="contrastlevel" min="0" max="200" value="100" step="10" onchange="contrastchange(this.value)"></td>
+                </tr>
+
+                <tr>
+                    <td><p class="brightnessText">Brightness</p><input type="range" id="brightnesslevel" min="0" max="200" value="100" step="10" onchange="brightnesschange(this.value)"></td>
+                </tr>
+                <tr>
+                </tr>
+                <td><p> </p></td>
+                <tr>
+                    <td><button type="button" class="buttonplacement" onclick="invertcolours(event)">Invert Colours</button></td>
+                </tr>
+            </table>
+
+        </div>    
+
+        <div id="countdown">Game over in <span id="time">05:00</span> minutes</div>
+        <script>
+
+            /*
+        Starts timer
+    */
+            var mainTimer;
+            window.onload = function () {
+                var fiveMinutes = 60 * 5,
+                    display = document.querySelector('#time');
+                mainTimer= startTimer(fiveMinutes, display);
+            };
+        </script>
+        <script src="js/project.js"></script>
+        <script src="js/40297875.js"></script>
+        <script src="js/40297600.js"></script>
+        <script src="js/40289650.js"></script>
+        <script src="js/40315052.js"></script>
+        <script src="js/40313023.js"></script>
+    </body>
+
+</html>
